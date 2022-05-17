@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+ 
 
   try {
     const productData = await Product.findByPk(req.params.id, {
@@ -25,6 +26,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", (req, res) => {
+  
   Product.create(req.body)
     .then((product) => {
       if (req.body.tagIds.length) {
@@ -67,6 +69,7 @@ router.put("/:id", (req, res) => {
       const productTagsToRemove = productTags
         .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
         .map(({ id }) => id);
+
       return Promise.all([
         ProductTag.destroy({ where: { id: productTagsToRemove } }),
         ProductTag.bulkCreate(newProductTags),
@@ -90,4 +93,5 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json(err);
   }
 });
+
 module.exports = router;
