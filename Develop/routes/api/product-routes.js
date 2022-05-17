@@ -1,27 +1,30 @@
-const router = require('express').Router();
-const { Product, Category, Tag, ProductTag } = require('../../models');
-router.get('/', async (req, res) => {
-  try{
-    const productData = await Product.findAll({
-      include:[Category, {model:Tag,through:ProductTag}],
-    });
-    res.status(200).json(productData);
-  } catch(err) {
-    res.status(500).json(err);
-  }
-});
-router.get('/:id', async (req, res) => {
+const router = require("express").Router();
+const { Product, Category, Tag, ProductTag } = require("../../models");
 
+router.get("/", async (req, res) => {
   try {
-    const productData = await Product.findByPk(req.params.id,
-      {include: [Category, {model: Tag, through: ProductTag}]}
-    );
+    const productData = await Product.findAll({
+      include: [Category, { model: Tag, through: ProductTag }],
+    });
     res.status(200).json(productData);
   } catch (err) {
     res.status(500).json(err);
   }
 });
-router.post('/', (req, res) => {
+
+router.get("/:id", async (req, res) => {
+
+  try {
+    const productData = await Product.findByPk(req.params.id, {
+      include: [Category, { model: Tag, through: ProductTag }],
+    });
+    res.status(200).json(productData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.post("/", (req, res) => {
   Product.create(req.body)
     .then((product) => {
       if (req.body.tagIds.length) {
@@ -41,7 +44,8 @@ router.post('/', (req, res) => {
       res.status(400).json(err);
     });
 });
-router.put('/:id', (req, res) => {
+
+router.put("/:id", (req, res) => {
   Product.update(req.body, {
     where: {
       id: req.params.id,
@@ -73,12 +77,13 @@ router.put('/:id', (req, res) => {
       res.status(400).json(err);
     });
 });
-router.delete('/:id', async (req, res) => {
+
+router.delete("/:id", async (req, res) => {
   try {
     const productData = await Product.destroy({
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     });
     res.status(200).json(productData);
   } catch (err) {
