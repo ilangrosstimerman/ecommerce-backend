@@ -1,31 +1,10 @@
-const Product = require('./Product');
-const Category = require('./Category');
-const Tag = require('./Tag');
-const ProductTag = require('./ProductTag');
+const router = require('express').Router();
+const apiRoutes = require('./api');
 
-Product.belongsTo(Category,{
-  foreignKey:'category_id',
-  onDelete:'CASCADE',
+router.use('/api', apiRoutes);
+
+router.use((req, res) => {
+  res.send("<h1>Wrong Route!</h1>")
 });
 
-Category.hasMany(Product,{
-  foreignKey:'category_id',
-});
-
-Product.belongsToMany(Tag,{
-  through:ProductTag,
-  foreignKey:'product_id',
-});
-
-Tag.belongsToMany(Product, {
-  through:ProductTag,
-  foreignKey:'tag_id',
-});
-
-
-module.exports = {
-  Product,
-  Category,
-  Tag,
-  ProductTag,
-};
+module.exports = router;
