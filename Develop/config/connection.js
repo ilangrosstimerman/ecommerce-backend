@@ -7,7 +7,7 @@ const sequelize = process.env.JAWSDB_URL
   : new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PW, {
       host: '127.0.0.1',
       username: 'root',
-      password: "Nate050220",
+      password: "",
       database: "ecommerce_db",
       dialect: 'mysql',
       dialectOptions: {
